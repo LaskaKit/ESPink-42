@@ -22,4 +22,4 @@ K dispozici je i spousta GPIO, na které si můžeš zapájet, co budeš potřeb
 ESPink-4.2" najdeš na našem e-shopu https://www.laskakit.cz/laskakit-espink-42-esp32-e-paper-pcb-antenna/
 A několik vzorových kódu i na našem githubu https://github.com/LaskaKit/ESPink-42/tree/main/SW
 
-![ESPink 4.2" pinout](https://github.com/LaskaKit/ESPink-42/blob/main/img/ESPink-42-pinout.jpg)
+![ESPink 4.2" pinout](https://github.com/LaskaKit/ESPink-42/blob/main/img/ESPink-4.2-pinout.jpg)
