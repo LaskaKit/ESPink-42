@@ -33,7 +33,7 @@ void setup()
 }
 void loop()
 { 
-  display.drawBitmap(laskakit, 0, 100, 400, 102, GxEPD_BLACK); // zobrazeni loga
+  //display.drawBitmap(laskakit, 0, 100, 400, 102, GxEPD_BLACK); // zobrazeni loga
 
   display.setTextColor(GxEPD_BLACK);  // black font
   display.setCursor(/*x*/50, /*y*/50);
