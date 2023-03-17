@@ -107,7 +107,7 @@ NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 3600, 60000);
 
 /* ---- ADC reading - indoor Battery voltage ---- */
 ESP32AnalogRead adc;
-#define dividerRatio 1.3
+#define dividerRatio 1.769
 #define vBatPin 34
 /* ---------------------------------------------- */
 
