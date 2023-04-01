@@ -91,7 +91,7 @@ void setup()
 {
   Serial.begin(115200);
   pinMode(DISPLAY_POWER_PIN, OUTPUT);    // Set epaper transistor as output
-  digitalWrite(DISPLAY_POWER_PIN, HIGH); // Surn on epaper transistor
+  digitalWrite(DISPLAY_POWER_PIN, HIGH); // Turn on epaper transistor
   delay(100);                            // Delay so it has time to turn on
   if (bootCount)                         // If first boot, redraw
   {

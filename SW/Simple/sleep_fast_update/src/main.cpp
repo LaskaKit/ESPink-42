@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include <GxEPD2_BW.h>
 #include <Fonts/FreeMonoBold12pt7b.h>
-#include <Wire.h>
 
 #define TIME_TO_SLEEP 5           // Time ESP32 will go to sleep (in seconds)
 #define uS_TO_S_FACTOR 1000000ULL // Conversion factor for micro seconds to seconds
@@ -29,61 +28,19 @@ void print_middle_line(char *text, uint16_t padding)
   display.setTextColor(GxEPD_BLACK);
   display.getTextBounds(text, 0, 0, &tbx, &tby, &tbw, &tbh);
   display.setCursor((display.width() - tbw) / 2, padding);
-  display.print(text);
+  display.println(text);
 }
 
-void I2C_test()
+void display_text()
 {
-  byte error, address;
-  int nDevices = 0;
   char text[40];
   display.fillScreen(GxEPD_WHITE);
-  sprintf(text, "Scanning for I2C devices...");
-  print_middle_line(text, TEXT_PADDING);
-  for (address = 0x01; address < 0x7f; address++)
-  {
-    Wire.beginTransmission(address);
-    error = Wire.endTransmission();
-    if (error == 0)
-    {
-      nDevices++;
-      sprintf(text, "I2C device found at address 0x%d", address);
-      print_middle_line(text, TEXT_PADDING);
-    }
-    else if (error != 2)
-    {
-      if (nDevices)
-      {
-        sprintf(text, "Error %d at address 0x%d", error, address);
-        print_middle_line(text, TEXT_PADDING * nDevices + 2 * TEXT_PADDING);
-      }
-      else
-      {
-        sprintf(text, "Error %d at address 0x%d", error, address);
-        print_middle_line(text, TEXT_PADDING * 2);
-      }
-    }
-  }
-  if (nDevices == 0)
-  {
-    sprintf(text, "No I2C devices found");
-    print_middle_line(text, TEXT_PADDING * 2);
-    sprintf(text, "Next scanning in 5 seconds...");
-    print_middle_line(text, TEXT_PADDING * 3);
-    sprintf(text, "Went to sleep %d times", bootCount);
-    print_middle_line(text, TEXT_PADDING * 4);
-    sprintf(text, "Going to sleep");
-    print_middle_line(text, TEXT_PADDING * 5);
-  }
-  else
-  {
-    sprintf(text, "Next scanning in 5 seconds...");
-    print_middle_line(text, TEXT_PADDING * nDevices + 2 * TEXT_PADDING);
-    sprintf(text, "Went to sleep %d times", bootCount);
-    print_middle_line(text, TEXT_PADDING * 3);
-    sprintf(text, "Going to sleep");
-    print_middle_line(text, TEXT_PADDING * nDevices + 4 * TEXT_PADDING);
-  }
+  sprintf(text, "Went to sleep %d times", bootCount);
+  print_middle_line(text, TEXT_PADDING );
+  sprintf(text, "Next wake up in %d seconds", TIME_TO_SLEEP);
+  print_middle_line(text, TEXT_PADDING * 2);
+  sprintf(text, "Going to sleep");
+  print_middle_line(text, TEXT_PADDING * 3);
   display.display(true);
 }
 
@@ -105,7 +62,7 @@ void setup()
   display.fillScreen(GxEPD_WHITE);
   display.setPartialWindow(0, 0, display.width(), display.height()); // Set display window for fast update
   Wire.begin();
-  I2C_test();
+  display_text();
   bootCount++; // Increment boot number every reboot
   start_sleep();
 }
