@@ -1,12 +1,25 @@
+/*
+ * ADC test for LaskaKit ESPink-4.2"
+ *
+ * Email:podpora@laskakit.cz
+ * Web:laskakit.cz
+ */
+
 #include <Arduino.h>
 #include <GxEPD2_BW.h>
 #include <Fonts/FreeMonoBold12pt7b.h>
+#include <ESP32AnalogRead.h>
 
 #define TIME_TO_SLEEP 5           // Time ESP32 will go to sleep (in seconds)
 #define uS_TO_S_FACTOR 1000000ULL // Conversion factor for micro seconds to seconds
 RTC_DATA_ATTR int bootCount = 0;  // Variable for keeping number of wakeups
 
 #define DISPLAY_POWER_PIN 2 // Epaper power pin
+
+// ADC settings
+ESP32AnalogRead adc;
+#define DIVIDER_RATIO 1.769
+#define ADC 34
 
 #define TEXT_PADDING 30
 
@@ -35,12 +48,14 @@ void display_text()
 {
   char text[40];
   display.fillScreen(GxEPD_WHITE);
+  sprintf(text, "Battery voltage is %0.2f V", (adc.readVoltage() * DIVIDER_RATIO));
+  print_middle_line(text, TEXT_PADDING);
   sprintf(text, "Went to sleep %d times", bootCount);
-  print_middle_line(text, TEXT_PADDING );
-  sprintf(text, "Next wake up in %d seconds", TIME_TO_SLEEP);
   print_middle_line(text, TEXT_PADDING * 2);
-  sprintf(text, "Going to sleep");
+  sprintf(text, "Next wake up in %d seconds", TIME_TO_SLEEP);
   print_middle_line(text, TEXT_PADDING * 3);
+  sprintf(text, "Going to sleep");
+  print_middle_line(text, TEXT_PADDING * 4);
   display.display(true);
 }
 
@@ -60,7 +75,7 @@ void setup()
   }
   display.setRotation(0);
   display.setPartialWindow(0, 0, display.width(), display.height()); // Set display window for fast update
-  Wire.begin();
+  adc.attach(ADC);
   display_text();
   bootCount++; // Increment boot number every reboot
   start_sleep();
