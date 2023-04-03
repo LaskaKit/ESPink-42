@@ -23,14 +23,14 @@
 */
  
 #include <WiFi.h>
-#include <WiFiUdp.h>
 
 // ePaper
 #include <GxEPD2_BW.h>
 #include "SPI.h"
 
 // NTPClient
-#include <NTPClient.h>
+#include "time.h"
+#include "sntp.h"
 
 // ArduinoJson
 #include <ArduinoJson.h>
@@ -101,8 +101,10 @@ GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> display(GxEPD2_420(/*CS*/ SS, /*DC*/ D
 /* ---------------------------------------------- */
 
 /* -------------------NTP Client----------------- */
-WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 3600, 60000);
+const char* ntpServer1 = "pool.ntp.org";
+const char* ntpServer2 = "time.nist.gov";
+// A list of rules for your zone could be obtained from https://github.com/esp8266/Arduino/blob/master/cores/esp8266/TZ.h
+const char* time_zone = "CET-1CEST,M3.5.0,M10.5.0/3"; // Prague time zone
 /* ---------------------------------------------- */
 
 /* ---- ADC reading - indoor Battery voltage ---- */
@@ -241,16 +243,6 @@ uint8_t getVBattery() {
 
   return d_volt;
 }
- 
-String getTime(){
-  timeClient.begin();
-  char buff[6];
-  // get time
-  timeClient.update();
-  sprintf(buff, "%02d:%02d", timeClient.getHours(), timeClient.getMinutes());
-
-  return buff;
-}
 
 void WiFiInit(){
   // Connecting to WiFi
@@ -316,6 +308,17 @@ void getBME280data(){
   Serial.println(" %");
 }
 
+void printTime() {
+  char buff[6];
+  struct tm timeinfo;
+  if(!getLocalTime(&timeinfo))
+  {
+    return;
+  }
+  sprintf(buff, "%02d:%02d", timeinfo.tm_hour, timeinfo.tm_min);
+  display.print(buff);
+}
+
 void setup() {
   Serial.begin(115200);
   pinMode(ePaperPowerPin, OUTPUT); 
@@ -329,11 +332,13 @@ void setup() {
   //BME280 init
   BME280init();
 
+  // Time config
+  configTzTime(time_zone, ntpServer1, ntpServer2);
   // get Time from NTPClient
   display.setTextColor(GxEPD_BLACK, GxEPD_WHITE);
   display.setFont(&OpenSansSB_50px);
   display.setCursor(DISPLAY_RESOLUTION_X/3, DISPLAY_RESOLUTION_Y/5); // set cursor
-  display.print(getTime());
+  printTime();
 
   // read sensor data from TMEP
   readTMEPdata();
