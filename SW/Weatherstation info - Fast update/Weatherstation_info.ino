@@ -52,8 +52,8 @@
 /* PLEASE, CHANGE THIS */
 /***********************/
 /* -----------------WiFi network ---------------- */
-char ssid[] = "WiFi_7";
-char pass[] = "WiFiBurian7";
+char ssid[] = "xxx";
+char pass[] = "yyy";
 /* ---------------------------------------------- */
 
 /* -------------------TMEP setting--------------- */
@@ -63,7 +63,7 @@ const char *jsonurl = "https://tmep.cz/vystup-json.php?id=4551&export_key=bx9hd5
 /* ---------------------------------------------- */
 
 /* ---------- Deepsleep time in seconds --------- */
-#define deepSleepTime 10
+#define deepSleepTime 300
 /* ---------------------------------------------- */
 
 /***********************/
