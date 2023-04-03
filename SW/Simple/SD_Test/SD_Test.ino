@@ -1,17 +1,17 @@
-/*
- * Connect the SD card to the following pins:
+/* SD test for LaskaKit ESPink-4.2"
  *
- * SD Card | ESP32
- *    D2       -
- *    D3       SS
- *    CMD      MOSI
- *    VSS      GND
- *    VDD      3.3V
- *    CLK      SCK
- *    VSS      GND
- *    D0       MISO
- *    D1       -
+ * -------- ESPink pinout -------
+ * MOSI/SDI 23
+ * CLK/SCK 18
+ * SS 5 //CS
+ * DC 17  
+ * RST 16  
+ * BUSY 4 
+ * -------------------------------
+ * Email:podpora@laskakit.cz
+ * Web:laskakit.cz
  */
+
 #include "FS.h"
 #include "SD.h"
 #include "SPI.h"

@@ -1,6 +1,13 @@
-/*
- * ADC test for LaskaKit ESPink-4.2"
+/* SD test for LaskaKit ESPink-4.2"
  *
+ * -------- ESPink pinout -------
+ * MOSI/SDI 23
+ * CLK/SCK 18
+ * SS 5 //CS
+ * DC 17  
+ * RST 16  
+ * BUSY 4 
+ * -------------------------------
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
  */
