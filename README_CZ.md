@@ -9,6 +9,9 @@ Na desce samozřejmě najdeš konektor pro ePaper displeje. Někdy nazvaný tak�
 I takovému odběru jsme chtěli zamezit a tak jsme do napájení přidali tranzistor, který napájení spíná. Tento tranzistor je připojen na GPIO2 a napájení ePaperu je připojeno, 
 pokud se GPIO2 nastaví do HIGH.
 
+Pinout of rozšiřujícího konektoru<br>
+![ESPink-4.2" Pinout of rozšiřujícího konektoru](https://github.com/LaskaKit/ESPink-42/blob/main/img/pinout.png)
+
 Nízká spotřeba je dosažena i tím, že jsme programátor přesunuli na náš univerzální [LaskaKit CH9102 programmer](https://www.laskakit.cz/laskakit-ch9102-programmer-usb-c--microusb--uart/), který používáme u všech našich desek. Pokud chceš pohodlně programovat ESPink-4.2" přes USB-C konektor a bez externího programátoru, můžeš si koupit a osadit na desku [CH9102 SMD programmer](https://www.laskakit.cz/laskakit-ch9102-smd-programmer/). Počítej ale s o trochu vyšší vlastní spotřebou desky. 
 
 Deska může být napájena z [lipol akumulátoru](https://www.laskakit.cz/baterie-a-akumulatory/), který je nabíjen z USB-C konektoru. 
