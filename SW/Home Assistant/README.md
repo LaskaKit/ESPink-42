@@ -11,7 +11,6 @@
 5. Upload code to your device. From now on, you are able to upload code wirelessly, just locally, because device is most of the time in sleep mode.
 
 # What does it do?
+It prints data from [TMEP](https://tmep.cz/) on the display after getting them from Home Assistant and goes to sleep.
 
 ![esphome](../../img/esphome.jpg)
-
-It prints data from [TMEP](https://tmep.cz/) on the display after getting them from Home Assistant and goes to sleep.
