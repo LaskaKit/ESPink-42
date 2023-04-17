@@ -1,0 +1,13 @@
+rest:
+  - authentication: basic
+    scan_interval: 60
+    resource: https://tmep.cz/vystup-json.php?id=4551&export_key=bx9hd5jq8g&extended=1  # Change to your resource
+    sensor:                                             # Change value_template and name to your sensors
+      - name: "TMEP temperature"
+        value_template: "{{ value_json.teplota }}"
+      - name: "TMEP humidity"
+        value_template: "{{ value_json.vlhkost }}"
+      - name: "TMEP pressure"
+        value_template: "{{ value_json.tlak }}"
+      - name: "TMEP voltage"
+        value_template: "{{ value_json.napeti }}"
