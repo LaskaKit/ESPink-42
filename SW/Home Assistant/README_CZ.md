@@ -11,7 +11,6 @@
 5. Nahrát program do zařízení. Odteď už nebude možné nahrát kód do zařízení bezdrátově, pouze lokálně, protože zařízení tráví většinu času v režimu spánku.
 
 # Co kód dělá?
+Zobrazí data z [TMEP](https://tmep.cz/) na displej po jejich stažení z Home Assistant a uspí se.
 
 ![esphome](../../img/esphome.jpg)
-
-Zobrazí data z [TMEP](https://tmep.cz/) na displej po jejich stažení z Home Assistant a uspí se.
