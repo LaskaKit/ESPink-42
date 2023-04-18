@@ -1,4 +1,4 @@
-![ePaper TOP](https://github.com/LaskaKit/ESPink-42/blob/main/SW/Weatherstation%20info/ESPink-4.2_1.jpg)</br>
+![ePaper TOP](https://github.com/LaskaKit/ESPink-42/blob/main/SW/Weatherstation_info/ESPink-4.2_1.jpg)</br>
 </br>
 This version uses fast update feature of the eink. For that it is necessary to keep display powered up during deep sleep of ESP32. So this version draws a bit more current (max 5 uA for the display in the picture).
 
