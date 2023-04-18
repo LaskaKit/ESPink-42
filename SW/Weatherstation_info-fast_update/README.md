@@ -1,4 +1,4 @@
-![ePaper TOP](https://github.com/LaskaKit/ESPink-42/blob/main/SW/Weatherstation%20info/ESPink-4.2_1.jpg)</br>
+![ePaper TOP](https://github.com/LaskaKit/ESPink-42/blob/main/SW/Weatherstation_info-fast_update/ESPink-4.2_1.jpg)</br>
 </br>
 This version uses fast update feature of the eink. For that it is necessary to keep display powered up during deep sleep of ESP32. So this version draws a bit more current (max 5 uA for the display in the picture).
 
@@ -39,4 +39,4 @@ https://github.com/adafruit/Adafruit_Sensor</br>
 </br>
 made by laskakit (c) 2023</br>
 </br>
-![ePaper TOP](https://github.com/LaskaKit/ESPink-42/blob/main/SW/Weatherstation%20info/ESPink-4.2_2.jpg)</br>
+![ePaper TOP](https://github.com/LaskaKit/ESPink-42/blob/main/SW/Weatherstation_info-fast_update/ESPink-4.2_2.jpg)</br>
