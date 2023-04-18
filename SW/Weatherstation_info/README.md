@@ -1,4 +1,4 @@
-![ePaper TOP](https://github.com/LaskaKit/ESPink-42/blob/main/SW/Weatherstation%20info/ESPink-4.2_1.jpg)</br>
+![ePaper TOP](https://github.com/LaskaKit/ESPink-42/blob/main/SW/Weatherstation_info/ESPink-4.2_1.jpg)</br>
 </br>
 Example code shows values from weatherstation from TMEP.cz (temperature, humidity, pressure, battery voltage) 
 and BME280 (temperature/humidity), battery voltage on eInk/ePaper display</br>
@@ -37,4 +37,4 @@ https://github.com/adafruit/Adafruit_Sensor</br>
 </br>
 made by laskakit (c) 2023</br>
 </br>
-![ePaper TOP](https://github.com/LaskaKit/ESPink-42/blob/main/SW/Weatherstation%20info/ESPink-4.2_2.jpg)</br>
+![ePaper TOP](https://github.com/LaskaKit/ESPink-42/blob/main/SW/Weatherstation_info/ESPink-4.2_2.jpg)</br>
