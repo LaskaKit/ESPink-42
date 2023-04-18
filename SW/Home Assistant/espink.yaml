@@ -1,0 +1,194 @@
+substitutions:
+  api_key: "Place youe api key"                           # Change to your key
+  sleep_time: 10s                                         # Change time to sleep
+
+esphome:
+  name: "espink"                                          # Change for your device name
+  friendly_name: ESPink                                   # Change for your device name
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: ${api_key}
+
+ota:
+
+wifi:
+  ssid: !secret wifi_ssid                                   # Change Wifi SSID
+  password: !secret wifi_password                           # Change Wifi password
+  fast_connect: true
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Esphome-Web-Dede10"
+    password: "jomD5Mb0u9AP"
+
+captive_portal:
+
+output:
+  - platform: gpio
+    pin: GPIO2
+    id: eink
+    inverted: true
+
+spi:
+  clk_pin: GPIO18
+  mosi_pin: GPIO23
+
+deep_sleep:
+  id: deep_sleep_1
+  sleep_duration: 10s
+
+font:
+  - file: 'fonts/materialdesignicons-webfont.ttf'
+    id:  mdi_wifi
+    size: 20
+    glyphs: [
+      # Wifi
+      '󰤫', # mdi-wifi-strength-alert-outline
+      '󰤟', # mdi-wifi-strength-1
+      '󰤢', # mdi-wifi-strength-2
+      '󰤥', # mdi-wifi-strength-3
+      '󰤨'  # mdi-wifi-strength-4
+
+      ]
+  - file: "gfonts://Open Sans"
+    id: font_small_book
+    size: 15
+    glyphs:
+      [',', '.', '"', '%', '(', ')', '+', '-', '_', ':', '°', '0',
+       '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E',
+       'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
+       'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' ', 'a', 'b', 'c', 'd', 'e', 'f',
+       'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+       'u', 'v', 'w', 'x', 'y', 'z', '/']
+
+  - file: "gfonts://Roboto"
+    id: heading
+    size: 40
+    glyphs:
+      ['T', 'M', 'E', 'P', 'D', 'A', ' ']
+
+  - file: "gfonts://Chivo Mono"
+    id: data
+    size: 25
+    glyphs:
+      ['-', '.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+       '°', 'C', 'm', 'V', 'h', 'P', 'a', '%']
+
+  - file: 'fonts/materialdesignicons-webfont.ttf'
+    id:  mdi_big
+    size: 80
+    glyphs: [
+      '󰔏', # mdi-themometer
+      '󰖎', # mdi-water-percent
+      '󱐋', # mdi-LightningBolt
+      '󰊚'  # mdi-Gauge
+      ]
+
+time:
+  - platform: homeassistant
+    timezone: Europe/Prague
+    id: homeassistant_time
+
+sensor:
+  - platform: wifi_signal
+    name: "WiFi Signal Sensor"
+    id: wifisignal
+
+  - platform: homeassistant       # Set your sensors
+    name: "TMEP temperature"
+    id: tmep_temperature
+    entity_id: sensor.tmep_temperature
+
+  - platform: homeassistant
+    name: "TMEP humidity"
+    id: tmep_humidity
+    entity_id: sensor.tmep_humidity
+
+  - platform: homeassistant
+    name: "TMEP pressure"
+    id: tmep_pressure
+    entity_id: sensor.tmep_pressure
+
+  - platform: homeassistant
+    name: "TMEP voltage"
+    id: tmep_voltage
+    entity_id: sensor.tmep_voltage
+    on_value:
+      then:
+        # Do after getting data from Home Assistant
+        - logger.log: WiFi is connected!
+        - component.update: homeassistant_time
+        - logger.log: 
+            format: "%.2f°C, %.0f%%, %.2fV, %.0fhPa"
+            args: [ 'id(tmep_temperature).state', 'id(tmep_humidity).state', 'id(tmep_voltage).state', 'id(tmep_pressure).state']
+        - component.update: epaperdisplay
+        - delay: 5s
+        - deep_sleep.enter:
+            id: deep_sleep_1
+            sleep_duration: ${sleep_time}
+        
+
+display:
+  - platform: waveshare_epaper
+    cs_pin: GPIO5
+    dc_pin: GPIO17
+    busy_pin: GPIO4
+    reset_pin: GPIO16
+    model: 4.20in
+    rotation: 0
+    update_interval: never
+    id: epaperdisplay
+    lambda: |-
+      it.print(it.get_width() / 2, 0, id(heading), TextAlign::TOP_CENTER, "TMEP DATA");
+      it.strftime(it.get_width() / 2, it.get_height(), id(font_small_book), TextAlign::BOTTOM_CENTER , "Updated at %d/%b/%Y %H:%M", id(homeassistant_time).now());
+      
+      /*Print data*/
+      /*Temperature*/
+      it.print(40, 100, id(mdi_big), TextAlign::CENTER, "󰔏");
+      it.printf(40 + 40, 100, id(data), TextAlign::CENTER_LEFT, "%.2f°C", id(tmep_temperature).state);
+      /*Humidity*/
+      it.print(360, 100, id(mdi_big), TextAlign::CENTER, "󰖎");
+      it.printf(360 - 40, 100, id(data), TextAlign::CENTER_RIGHT, "%.0f%%", id(tmep_humidity).state);
+      /*Voltage*/
+      it.print(40, 200, id(mdi_big), TextAlign::CENTER, "󱐋");
+      it.printf(40 + 40, 200, id(data), TextAlign::CENTER_LEFT, "%.2fV", id(tmep_voltage).state);
+      /*Pressure*/
+      it.print(360, 200, id(mdi_big), TextAlign::CENTER, "󰊚");
+      it.printf(360 - 40, 200, id(data), TextAlign::CENTER_RIGHT, "%.0fhPa", id(tmep_pressure).state);
+
+      /* WiFi Signal Strenght */
+      if(id(wifisignal).has_state()) {
+        int x = 390;
+        int y = 0;
+        if (id(wifisignal).state >= -50) {
+            //Excellent
+            it.print(x, y, id(mdi_wifi), TextAlign::TOP_CENTER, "󰤨");
+            ESP_LOGI("WiFi", "Exellent");
+        } else if (id(wifisignal).state  >= -60) {
+            //Good
+            it.print(x, y, id(mdi_wifi), TextAlign::TOP_CENTER, "󰤥");
+            ESP_LOGI("WiFi", "Good");
+        } else if (id(wifisignal).state  >= -75) {
+            //Fair
+            it.print(x, y, id(mdi_wifi), TextAlign::TOP_CENTER, "󰤢");
+            ESP_LOGI("WiFi", "Fair");
+        } else if (id(wifisignal).state  >= -100) {
+            //Weak
+            it.print(x, y, id(mdi_wifi), TextAlign::TOP_CENTER, "󰤟");
+            ESP_LOGI("WiFi", "Weak");
+        } else {
+            //Unlikely working signal
+            it.print(x, y, id(mdi_wifi), TextAlign::TOP_CENTER, "󰤫");
+            ESP_LOGI("WiFi", "Unlikely");
+        }
+      }

@@ -8,6 +8,9 @@ The ESPink is based on ESP32 what is one of the most popular Wi-Fi and Bluetooth
 
 What is on board? Connector for connection of ePaper/eInk. The ePaper is very low power but it is drawing current during sleep (a few uA). To achieve the lowest current, we assembled transistor between power and input of ePaper. Thanks to this, the current through ePaper during the sleep is zero. The gate of transistor is connected to GPIO2 and the power supply for ePaper is enabled in case GPIO2 is set to HIGH.
 
+Pinout of extension header<br>
+![ESPink-4.2" pinout of extension header](https://github.com/LaskaKit/ESPink-42/blob/main/img/pinout.png)
+
 One more feature how to decrease the current is the external [LaskaKit CH9102 programmer](https://www.laskakit.cz/laskakit-ch9102-programmer-usb-c--microusb--uart/),
 what we are using for all of our boards. So only one programmer may upload code to all of our low power boards. If you prefer to have programmer on board, you can buy [LaskaKit CH9102 SMD programmer](https://www.laskakit.cz/laskakit-ch9102-smd-programmer/) and assemble it on board. The own power consumption will be a little bit higher.
 
