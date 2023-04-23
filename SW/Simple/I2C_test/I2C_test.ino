@@ -62,7 +62,7 @@ void I2C_test()
     {
       nDevices++;
       sprintf(text, "I2C device found at address 0x%d", address);
-      print_middle_line(text, TEXT_PADDING);
+      print_middle_line(text, TEXT_PADDING * nDevices + TEXT_PADDING);
     }
     else if (error != 2)
     {
