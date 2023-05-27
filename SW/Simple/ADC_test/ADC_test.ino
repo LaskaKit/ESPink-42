@@ -25,7 +25,7 @@ RTC_DATA_ATTR int bootCount = 0;  // Variable for keeping number of wakeups
 
 // ADC settings
 ESP32AnalogRead adc;
-#define DIVIDER_RATIO 1.769
+#define DIVIDER_RATIO 1.7693877551 // Voltage devider ratio on ADC pin 1MOhm + 1.3MOhm
 #define ADC 34
 
 #define TEXT_PADDING 30

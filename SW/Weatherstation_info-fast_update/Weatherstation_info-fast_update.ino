@@ -52,14 +52,16 @@
 /* PLEASE, CHANGE THIS */
 /***********************/
 /* -----------------WiFi network ---------------- */
-char ssid[] = "xxx";
-char pass[] = "yyy";
+char ssid[] = "HH40V_5A43";
+char pass[] = "laskaLAB754125";
 /* ---------------------------------------------- */
 
 /* -------------------TMEP setting--------------- */
 const char *host = "tmep.cz";  // TMEP.cz or TMEP.eu
 const int httpPort = 80;
-const char *jsonurl = "https://tmep.cz/vystup-json.php?id=4551&export_key=bx9hd5jq8g&extended=1";
+//You can try with our test Weather Station first 
+//const char* jsonurl = "https://tmep.cz/vystup-json.php?id=4551&export_key=bx9hd5jq8g&extended=1"; //LasKKit Test Weather Station, Rychnov nad Kneznou
+const char *jsonurl = "https://tmep.cz/vystup-json.php?id=6707&export_key=68t2vd093s&extended=1";  // LaskaKit Maker Faire Weather Station
 /* ---------------------------------------------- */
 
 /* ---------- Deepsleep time in seconds --------- */
@@ -113,7 +115,7 @@ const char *time_zone = "CET-1CEST,M3.5.0,M10.5.0/3";  // Prague time zone
 
 /* ---- ADC reading - indoor Battery voltage ---- */
 ESP32AnalogRead adc;
-#define dividerRatio 1.769
+#define deviderRatio 1.7693877551  // Voltage devider ratio on ADC pin 1MOhm + 1.3MOhm
 #define vBatPin 34
 /* ---------------------------------------------- */
 
@@ -242,7 +244,7 @@ uint8_t getVBattery() {
   // attach ADC input
   adc.attach(vBatPin);
   // battery voltage measurement
-  d_volt = adc.readVoltage() * dividerRatio;
+  d_volt = adc.readVoltage() * deviderRatio;
   Serial.println("Battery voltage: " + String(d_volt) + " V");
 
   return d_volt;

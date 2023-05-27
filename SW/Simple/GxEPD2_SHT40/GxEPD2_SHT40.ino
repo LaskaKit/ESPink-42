@@ -46,6 +46,7 @@
 #define RST 16  // RES
 #define BUSY 4  //BUSY
 /* ---------------------------------------------- */
+#define deviderRatio 1.7693877551  // Voltage devider ratio on ADC pin 1MOhm + 1.3MOhm
 
 /*------------------------  Define EPD driver - uncomment the used one  -----------------------------*/
 //GxEPD2_BW<GxEPD2_154_D67, GxEPD2_154_D67::HEIGHT> display(GxEPD2_154_D67(/*CS*/ SS, /*DC*/ DC, /*RST*/ RST, /*BUSY*/ BUSY)); // 1.54" b/w
@@ -74,7 +75,7 @@ void setup() {
   adc.attach(34);
 
   // read ADC and calculate the voltage
-  vBat = adc.readVoltage()*1.769; // the ratio of divider, R2=1.3M; R1=1M
+  vBat = adc.readVoltage()* deviderRatio; // the ratio of divider, R2=1.3M; R1=1M
 
 
   /*----------- SHT40 -----------*/
