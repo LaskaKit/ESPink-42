@@ -25,7 +25,9 @@ RTC_DATA_ATTR int bootCount = 0;  // Variable for keeping number of wakeups
 
 #define TEXT_PADDING 30
 
-GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> display(GxEPD2_420(/*CS=5*/ SS, /*DC=*/17, /*RST=*/16, /*BUSY=*/4)); // GDEW042T2 400x300, UC8176 (IL0398)
+//GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> display(GxEPD2_420(/*CS=5*/ SS, /*DC=*/17, /*RST=*/16, /*BUSY=*/4)); // GDEW042T2 400x300, UC8176 (IL0398)
+GxEPD2_BW<GxEPD2_420_GDEY042T91, GxEPD2_420_GDEY042T91::HEIGHT> display(GxEPD2_420_GDEY042T91(/*CS=D8*/ SS, /*DC=D3*/ 17, /*RST=D4*/ 16, /*BUSY=D2*/ 4)); //GDEW042T2FT02, GDEY042T91, 400x300, SSD1683 (no inking)
+
 
 void start_sleep()
 {
@@ -106,6 +108,10 @@ void setup()
   Serial.begin(115200);
   pinMode(DISPLAY_POWER_PIN, OUTPUT);    // Set epaper transistor as output
   digitalWrite(DISPLAY_POWER_PIN, HIGH); // Turn on epaper transistor
+
+  pinMode(26, OUTPUT);    // Set epaper transistor as output
+  digitalWrite(26, HIGH); // Turn on epaper transistor
+
   delay(100);                            // Delay so it has time to turn on
   if (bootCount)                         // If first boot, redraw
   {
