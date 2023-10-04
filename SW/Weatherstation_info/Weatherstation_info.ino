@@ -111,7 +111,7 @@ const char* time_zone = "CET-1CEST,M3.5.0,M10.5.0/3"; // Prague time zone
 
 /* ---- ADC reading - indoor Battery voltage ---- */
 ESP32AnalogRead adc;
-#define deviderRatio 1.7693877551  // Voltage devider ratio on ADC pin 1MOhm + 1.3MOhm
+#define dividerRatio 1.7693877551  // Voltage devider ratio on ADC pin 1MOhm + 1.3MOhm
 #define vBatPin 34
 /* ---------------------------------------------- */
 
