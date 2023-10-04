@@ -2,6 +2,7 @@
 #include <GxEPD2_BW.h>
 #include <Fonts/FreeMonoBold12pt7b.h>
 
+
 #define TIME_TO_SLEEP 5           // Time ESP32 will go to sleep (in seconds)
 #define uS_TO_S_FACTOR 1000000ULL // Conversion factor for micro seconds to seconds
 RTC_DATA_ATTR int bootCount = 0;  // Variable for keeping number of wakeups
@@ -60,7 +61,7 @@ void setup()
   }
   display.setRotation(0);
   display.setPartialWindow(0, 0, display.width(), display.height()); // Set display window for fast update
-  Wire.begin();
+  //Wire.begin();
   display_text();
   bootCount++; // Increment boot number every reboot
   start_sleep();
