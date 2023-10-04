@@ -109,9 +109,6 @@ void setup()
   pinMode(DISPLAY_POWER_PIN, OUTPUT);    // Set epaper transistor as output
   digitalWrite(DISPLAY_POWER_PIN, HIGH); // Turn on epaper transistor
 
-  pinMode(26, OUTPUT);    // Set epaper transistor as output
-  digitalWrite(26, HIGH); // Turn on epaper transistor
-
   delay(100);                            // Delay so it has time to turn on
   if (bootCount)                         // If first boot, redraw
   {
