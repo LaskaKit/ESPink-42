@@ -52,7 +52,7 @@ void setup()
   display.setRotation(0);
   display.fillScreen(GxEPD_WHITE);
   display.setFullWindow(); // Set display window for full update
-  Wire.begin();
+  //Wire.begin();
   display_text();
   bootCount++; // Increment boot number every reboot
   digitalWrite(DISPLAY_POWER_PIN, LOW); // Turn off epaper transistor
