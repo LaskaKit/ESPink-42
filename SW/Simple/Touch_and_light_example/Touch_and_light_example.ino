@@ -1,4 +1,5 @@
 // Touch example with LED baclight testing.
+// ESPink-42 Touch FT6336
 
 #include <Arduino.h>
 #include "FT6236.h"
