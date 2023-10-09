@@ -44,8 +44,8 @@ void setup()
 	ledcSetup(1, 1000, 8);                 // ledChannel, freq, resolution
 	ledcAttachPin(DISPLAY_LED, 1);         // ledPin, ledChannel
 	ledcWrite(1, DISPLAY_LED_PWM);         // dutyCycle 0-255
-
   delay(100);                            // Delay so it has time to turn on
+  
   display_init();
   if (!ts.begin(40)) // 40 in this case represents the sensitivity. Try higer or lower for better response.
   {
