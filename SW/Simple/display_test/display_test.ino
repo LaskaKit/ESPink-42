@@ -14,6 +14,7 @@
 
 #include <Arduino.h>
 #include <GxEPD2_BW.h>
+#include <GxEPD2_3C.h>
 #include "bitmaps.h"
 #include "OpenSansSB_40px.h"
 
