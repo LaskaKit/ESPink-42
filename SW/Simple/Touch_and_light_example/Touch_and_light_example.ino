@@ -9,13 +9,10 @@
 
 #define DISPLAY_POWER_PIN 2  // Epaper power pin
 #define DISPLAY_LED 26       // Display backlight pin
-#define DISPLAY_LED_PWM 155  // dutyCycle 0-255 last minimum was 15
+#define DISPLAY_LED_PWM 50  // dutyCycle 0-255 last minimum was 15
 #define DIPLAY_BACKLIGHT_ON_TIME  5 // Time for which is backlight on after touch
 
-//GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> display(GxEPD2_420(/*CS=5*/ SS, /*DC=*/17, /*RST=*/16, /*BUSY=*/4)); // GDEW042T2 400x300, UC8176 (IL0398)
-GxEPD2_BW<GxEPD2_420_GDEY042T81, GxEPD2_420_GDEY042T81::HEIGHT> display(GxEPD2_420_GDEY042T81(/*CS=D8*/ SS, /*DC=D3*/ 17, /*RST=D4*/ 16, /*BUSY=D2*/ 4));  //GDEW042T2FT02, GDEY042T91, 400x300, SSD1683 (no inking)
-//GxEPD2_3C<GxEPD2_420c_Z21, GxEPD2_420c_Z21::HEIGHT> display(GxEPD2_420c_Z21(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEQ042Z21 400x300, UC8276
-
+GxEPD2_BW<GxEPD2_420_GDEY042T81, GxEPD2_420_GDEY042T81::HEIGHT> display(GxEPD2_420_GDEY042T81(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); //GDEY042T81 (GDEY042T81-FT02), 400x300, SSD1683 (no inking)
 
 FT6236 ts = FT6236(400, 300);
 
