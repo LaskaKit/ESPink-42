@@ -1,4 +1,6 @@
-### Version 2.2
+### Version 2.3
+- Resistor R9 changed to 0.47 Ohm
+#### Version 2.2
 - Pridán spinaný stabilizator pro µŠup na pinu 02
 - změna zapojení konektoru pro touch panel na nové displeje
 - změna zapojení konektoru pro podsvícení na nové displeje
