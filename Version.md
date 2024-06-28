@@ -1,4 +1,7 @@
-### Version 2.3
+### Version 2.4
+- JST-SH connector for USB added | Přidan konektor JST-SH pro USB 
+- TBD
+#### Version 2.3
 - ESPD power delivery changed | Napájení ESPD změněno
 - Battery voltage mesurement changed, used MAX17048 instead od ADC (First 5 minutes deep sleep current is 34 µA (before MAX17048 go to hibernate), after 5 min 14 µA) | Měření napětí baterie se změnilo, místo ADC se používá MAX17048 (prvních 5 minut deep sleep proud je 34 µA (než MAX17048 přejde do režimu spánku), po 5 minutách 14 µA)
 - Resistor R9 changed to 0.47 Ohm | Rezistor R9 změněn na 0,47 Ohm
