@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <GxEPD2_BW.h>
 #include <Fonts/FreeMonoBold12pt7b.h>
+#include <driver/rtc_io.h>
 
 
 #define TIME_TO_SLEEP 5           // Time ESP32 will go to sleep (in seconds)

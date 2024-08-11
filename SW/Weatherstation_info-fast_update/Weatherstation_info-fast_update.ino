@@ -11,7 +11,6 @@
  * TMEP server - jsonurl
  ***********************************************
  * Libraries:
- * Analog read with calibration data: https://github.com/madhephaestus/ESP32AnalogRead/
  * EPD library: https://github.com/ZinggJM/GxEPD2
  * ArduinoJson: https://arduinojson.org/
  * NTPClient: https://github.com/arduino-libraries/NTPClient
@@ -34,9 +33,6 @@
 
 // ArduinoJson
 #include <ArduinoJson.h>
-
-// ADC reading
-#include <ESP32AnalogRead.h>
 
 // BME280
 #include <Wire.h>
@@ -116,7 +112,6 @@ const char *time_zone = "CET-1CEST,M3.5.0,M10.5.0/3";  // Prague time zone
 /* ---------------------------------------------- */
 
 /* ---- ADC reading - indoor Battery voltage ---- */
-ESP32AnalogRead adc;
 #define deviderRatio 1.7693877551  // Voltage devider ratio on ADC pin 1MOhm + 1.3MOhm
 #define vBatPin 34
 /* ---------------------------------------------- */
@@ -243,10 +238,8 @@ int8_t getWifiStrength() {
 }
 
 uint8_t getVBattery() {
-  // attach ADC input
-  adc.attach(vBatPin);
   // battery voltage measurement
-  d_volt = adc.readVoltage() * deviderRatio;
+  d_volt = analogReadMilliVolts(vBatPin) * deviderRatio / 1000;
   Serial.println("Battery voltage: " + String(d_volt) + " V");
 
   return d_volt;

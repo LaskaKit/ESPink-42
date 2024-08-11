@@ -221,7 +221,6 @@ void setup()
 
   delay(100); // Delay so it has time to turn on
 
-  adc_init();
   Display_init();
   Display_drawStartScreen();
   display.display(true);

@@ -15,7 +15,7 @@
 #include <Arduino.h>
 #include <GxEPD2_BW.h>
 #include <Fonts/FreeMonoBold12pt7b.h>
-#include <ESP32AnalogRead.h>
+#include <driver/rtc_io.h>
 
 #define TIME_TO_SLEEP 5           // Time ESP32 will go to sleep (in seconds)
 #define uS_TO_S_FACTOR 1000000ULL // Conversion factor for micro seconds to seconds
@@ -24,7 +24,6 @@ RTC_DATA_ATTR int bootCount = 0;  // Variable for keeping number of wakeups
 #define DISPLAY_POWER_PIN 2 // Epaper power pin
 
 // ADC settings
-ESP32AnalogRead adc;
 #define DIVIDER_RATIO 1.7693877551 // Voltage devider ratio on ADC pin 1MOhm + 1.3MOhm
 #define ADC 34
 
@@ -57,7 +56,7 @@ void display_text()
 {
   char text[40];
   display.fillScreen(GxEPD_WHITE);
-  sprintf(text, "Battery voltage is %0.2f V", (adc.readVoltage() * DIVIDER_RATIO));
+  sprintf(text, "Battery voltage is %0.2f V", (analogReadMilliVolts(ADC) * DIVIDER_RATIO / 1000));
   print_middle_line(text, TEXT_PADDING);
   sprintf(text, "Went to sleep %d times", bootCount);
   print_middle_line(text, TEXT_PADDING * 2);
@@ -84,7 +83,6 @@ void setup()
   }
   display.setRotation(0);
   display.setPartialWindow(0, 0, display.width(), display.height()); // Set display window for fast update
-  adc.attach(ADC);
   display_text();
   bootCount++; // Increment boot number every reboot
   start_sleep();
