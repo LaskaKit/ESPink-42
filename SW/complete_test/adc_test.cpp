@@ -1,18 +1,11 @@
 #include <Arduino.h>
-#include <ESP32AnalogRead.h>
 #include <GxEPD2_BW.h>
 #include <Fonts/TomThumb.h>
 #include "adc_test.h"
 
 // ADC settings
-ESP32AnalogRead adc;
 #define DIVIDER_RATIO 1.7693877551 // Voltage devider ratio on ADC pin 1MOhm + 1.3MOhm
 #define ADC 34                     // ADC pin
-
-void adc_init()
-{
-  adc.attach(ADC);
-}
 
 void adc_test(GxEPD2_BW<GxEPD2_420_GDEY042T81, GxEPD2_420_GDEY042T81::HEIGHT> &existing_display)
 {
@@ -25,6 +18,6 @@ void adc_test(GxEPD2_BW<GxEPD2_420_GDEY042T81, GxEPD2_420_GDEY042T81::HEIGHT> &e
 	existing_display.print(old_text);
 	existing_display.setCursor(existing_display.width() - 60, 20);
 	existing_display.setTextColor(GxEPD_BLACK);
-	sprintf(text, "%0.2f V", (adc.readVoltage() * DIVIDER_RATIO));
+	sprintf(text, "%0.2f V", (analogReadMilliVolts(ADC) * DIVIDER_RATIO / 1000));
 	existing_display.print(text);
 }

@@ -18,6 +18,7 @@
 #include <FS.h>
 #include <SD.h>
 #include <SPI.h>
+#include <driver/rtc_io.h>
 
 #define SDTEST_TEXT_PADDING 25
 
