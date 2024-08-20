@@ -11,7 +11,6 @@
 * TMEP server - jsonurl
 ***********************************************
 * Libraries:
-* Analog read with calibration data: https://github.com/madhephaestus/ESP32AnalogRead/ 
 * EPD library: https://github.com/ZinggJM/GxEPD2
 * ArduinoJson: https://arduinojson.org/
 * NTPClient: https://github.com/arduino-libraries/NTPClient
