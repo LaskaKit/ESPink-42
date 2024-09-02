@@ -34,5 +34,5 @@
    
 ![ArduinoIDE_set](https://github.com/LaskaKit/ESPink-42/assets/6351767/a9089f0e-572a-4801-9a26-cfdc9788b6f4)
    
-4. Download necessary libraries.
+4. Download necessary libraries: [GxEPD2](https://github.com/ZinggJM/GxEPD2)
 5. Upload the code.

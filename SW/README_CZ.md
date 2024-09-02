@@ -14,7 +14,7 @@
    
     ![ArduinoIDE_set](../img/ArduinoIDE_set.png)
 
-3. Stáhnout nezbytné knihovny.
+3. Stáhnout nezbytné knihovny: [GxEPD2](https://github.com/ZinggJM/GxEPD2)
 4. Nahrát kód.
 ## Platform IO
 1. Stáhnout Github repository a otevřít příklad, který chcete zkusit ze složky [SW](../SW).
