@@ -41,8 +41,7 @@ void setup() {
   digitalWrite(DISPLAY_POWER_PIN, HIGH);  // Turn on the display
 
   // configure backlight LED PWM functionalitites
-  ledcSetup(1, 1000, 8);          // ledChannel, freq, resolution
-  ledcAttachPin(DISPLAY_LED, 1);  // ledPin, ledChannel
+  ledcAttach(DISPLAY_LED, 1000, 8);
   ledcWrite(1, 0);                // dutyCycle 0-255
   delay(100);                     // Delay so it has time to turn on
 
