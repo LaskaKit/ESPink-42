@@ -41,6 +41,9 @@ void setup()
   display.println("Bastliri bastli :-) ");
   display.drawBitmap(0, 100, laskakit, 400, 102, GxEPD_BLACK); // Laskakit logo
   display.display(false);
+  delay(1000);
+  display.fillScreen(GxEPD_WHITE);  // white background
+  display.display(false);
 }
 
 void loop()
