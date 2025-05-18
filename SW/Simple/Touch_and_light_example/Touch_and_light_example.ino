@@ -42,7 +42,7 @@ void setup() {
 
   // configure backlight LED PWM functionalitites
   ledcAttach(DISPLAY_LED, 1000, 8);
-  ledcWrite(1, 0);                // dutyCycle 0-255
+  ledcWrite(DISPLAY_LED, 0);                // dutyCycle 0-255
   delay(100);                     // Delay so it has time to turn on
 
   display_init();
@@ -65,7 +65,7 @@ void timer_start(void) {
 
 /* Timer elapsed function */
 void on_one_shot_timer(void* arg) {
-  ledcWrite(1, 0);  // dutyCycle 0-255
+  ledcWrite(DISPLAY_LED, DISPLAY_LED_PWM);  // dutyCycle 0-255
 }
 
 void loop() {
@@ -82,7 +82,7 @@ void loop() {
     display.print(text);
     display.display(true);
 
-    ledcWrite(1, DISPLAY_LED_PWM);  // dutyCycle 0-255
+    ledcWrite(DISPLAY_LED, DISPLAY_LED_PWM);  // dutyCycle 0-255
     timer_start();
   }
   // Debouncing. To avoid returning the same touch multiple times you can play with this delay.

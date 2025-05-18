@@ -14,7 +14,7 @@
 
 #define DISPLAY_POWER_PIN 2 // Epaper power pin
 #define DISPLAY_LED 26      // Display backlight pin
-#define DISPLAY_LED_PWM 155 // dutyCycle 0-255 last minimum was 15
+#define DISPLAY_LED_PWM 50 // dutyCycle 0-255 last minimum was 15
 
 #define BUTTON_X_SIZE 75
 #define BUTTON_Y_SIZE 50
@@ -182,13 +182,14 @@ void Display_mainScreen()
         break;
       case BACKLIGHT:
         Serial.println("Backlight");
-        if (ledcRead(1))
+        if (ledcRead(DISPLAY_LED))
         {
-          ledcWrite(1, 0);
+            delay(50);
+          ledcWrite(DISPLAY_LED, 0);
         }
         else
         {
-          ledcWrite(1, DISPLAY_LED_PWM);
+          ledcWrite(DISPLAY_LED, DISPLAY_LED_PWM);
         }
         break;
       case DISPLAY_TEST:
@@ -216,8 +217,7 @@ void setup()
 
 	// configure backlight LED PWM functionalitites
   ledcAttach(DISPLAY_LED, 1000, 8);
-  ledcWrite(1, DISPLAY_LED_PWM);
-
+  ledcWrite(DISPLAY_LED, 0);
   delay(100); // Delay so it has time to turn on
 
   Display_init();
