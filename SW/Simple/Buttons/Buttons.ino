@@ -1,7 +1,7 @@
 /* Buttons test for LaskaKit ESPink-4.2
  * 
  * Board:   LaskaKit ESPink-4.2   https://www.laskakit.cz/laskakit-espink-42-esp32-e-paper-pcb-antenna
- *
+ *  Only for ESPink-4.2 from version v3.0
  * 
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
