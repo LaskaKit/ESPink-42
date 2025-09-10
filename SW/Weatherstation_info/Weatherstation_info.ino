@@ -49,7 +49,7 @@
       /***********************/
 /* -----------------WiFi network ---------------- */
 char ssid[] = "xxx";
-char pass[] = "yyy";
+char pass[] = "xxx";
 /* ---------------------------------------------- */
 
 /* -------------------TMEP setting--------------- */
@@ -64,35 +64,38 @@ const char *jsonurl = "https://tmep.cz/vystup-json.php?id=6707&export_key=68t2vd
 #define deepSleepTime 300
 /* ---------------------------------------------- */
 
-      /***********************/
-      /**** KEEP AS IT IS ****/
-      /***********************/
-/*----------------- Pinout of ESPink -------------*/
-// MOSI/SDI 23
-// CLK/SCK 18
-// CS 5
-#define SS 5 //SS
-#define DC 17 // D/C
-#define RST 16  // RES
-#define BUSY 4  //BUSY
-#define ePaperPowerPin  2
-/* ---------------------------------------------- */
+/* -------------------Board--------------- */
+//#define ESPink42_V2     //for version v2.4 and earlier
+#define ESPink42_V3     //for version v3.0 and above
 
-/*----------------- Pinout of I2C ----------------*/
-#define SDA 21
-#define SCL 22
-/* ---------------------------------------------- */
+#ifdef ESPink42_V2
+  //MOSI/SDI    23
+  //CLK/SCK     18
+  //SS/CS       5
+  #define DC    17 
+  #define RST   16  
+  #define BUSY  4 
+  #define POWER 2
+  #define SDA   21
+  #define SCL   22
+  #define BAT   34
+  #define DISPLAY_LED 26      // Display backlight pin
+#else ESPink42_V3
+  //MOSI/SDI    11
+  //CLK/SCK     12
+  //SS/CS       10
+  #define DC    48 
+  #define RST   45  
+  #define BUSY  38 
+  #define POWER 47
+  #define SDA   42
+  #define SCL   2
+  #define BAT   9
+  #define DISPLAY_LED 1      // Display backlight pin
+#endif
 
-/*------------------------  Define EPD driver - uncomment the used one  -----------------------------*/
-//GxEPD2_BW<GxEPD2_154_D67, GxEPD2_154_D67::HEIGHT> display(GxEPD2_154_D67(/*CS*/ SS, /*DC*/ DC, /*RST*/ RST, /*BUSY*/ BUSY)); // 1.54" b/w
-//GxEPD2_BW<GxEPD2_154_M10, GxEPD2_154_M10::HEIGHT> display(GxEPD2_154_M10(/*CS*/ SS, /*DC*/ DC, /*RST*/ RST, /*BUSY*/ BUSY)); // 1.54" b/w DES
-//GxEPD2_BW<GxEPD2_213_B74, GxEPD2_213_B74::HEIGHT> display(GxEPD2_213_B74(/*CS*/ SS, /*DC*/ DC, /*RST*/ RST, /*BUSY*/ BUSY)); // 2.13" b/w
-//GxEPD2_BW<GxEPD2_213_M21, GxEPD2_213_M21::HEIGHT> display(GxEPD2_213_M21(/*CS*/ SS, /*DC*/ DC, /*RST*/ RST, /*BUSY*/ BUSY)); // 2.13" b/w DES
-//GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> display(GxEPD2_420(/*CS=5*/ SS, /*DC=*/DC, /*RST=*/RST, /*BUSY=*/BUSY)); // GDEW042T2 400x300, UC8176 (IL0398)
-GxEPD2_BW<GxEPD2_420_GDEY042T81, GxEPD2_420_GDEY042T81::HEIGHT> display(GxEPD2_420_GDEY042T81(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); //GDEY042T81, 400x300, SSD1683 (no inking)
-//GxEPD2_3C<GxEPD2_420c_Z21, GxEPD2_420c_Z21::HEIGHT> display(GxEPD2_420c_Z21(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEQ042Z21 400x300, UC8276
-//GxEPD2_BW<GxEPD2_750_T7, GxEPD2_750_T7::HEIGHT> display(GxEPD2_750_T7(/*CS*/ SS, /*DC*/ DC, /*RST*/ RST, /*BUSY*/ BUSY)); // 7.5" b/w 800x480
-// Note: all supported ePapers you can find on https://github.com/ZinggJM/GxEPD2
+// E-paper display
+GxEPD2_BW<GxEPD2_420_GDEY042T81, GxEPD2_420_GDEY042T81::HEIGHT> display(GxEPD2_420_GDEY042T81(SS, DC, RST, BUSY)); //GDEY042T81 (GDEY042T81-FT02), 400x300, SSD1683 (no inking)
 /*  ------------------------------------------------------------------------------------------------- */
 
 /*-------------- ePaper resolution----------------*/
@@ -109,13 +112,11 @@ const char* time_zone = "CET-1CEST,M3.5.0,M10.5.0/3"; // Prague time zone
 
 /* ---- ADC reading - indoor Battery voltage ---- */
 #define dividerRatio 1.7693877551  // Voltage devider ratio on ADC pin 1MOhm + 1.3MOhm
-#define vBatPin 34
 /* ---------------------------------------------- */
 
-/* -------------------BME280--------------------- */
-Adafruit_BME280 bme; // I2C
-#define SEALEVELPRESSURE_HPA (1013.25)
-#define BME280_ADDRESS (0x77)   // (0x76) cut left and solder left pad on board
+/* -------------------SHT40--------------------- */
+#include "Adafruit_SHT4x.h"
+Adafruit_SHT4x sht4 = Adafruit_SHT4x();
 /* ---------------------------------------------- */
 
 /* variables */
@@ -130,9 +131,8 @@ int strength; // Wi-Fi signal strength
 
 int percentage; // indoor battery voltage in percent
 float d_volt; // indoor battery voltage
-float temperature_in; // indoor temperature from BME280
-int pressure_in; // indoor pressure from BME280
-int humidity_in; // indoor humidity from BME280
+float temperature_in; // indoor temperature from SHT40
+int humidity_in; // indoor humidity from SHT40
 
 /* functions */
 void readTMEPdata() {
@@ -235,7 +235,7 @@ int8_t getWifiStrength() {
 
 uint8_t getVBattery() {
   // battery voltage measurement
-  d_volt = analogReadMilliVolts(vBatPin) * dividerRatio;
+  d_volt = analogReadMilliVolts(BAT) * dividerRatio/1000;
   Serial.println("Battery voltage: " + String(d_volt) + " V");
 
   return d_volt;
@@ -256,7 +256,7 @@ void WiFiInit(){
     if (i == 10) {
       i = 0;
       Serial.println("Not able to connect");
-      digitalWrite(ePaperPowerPin, LOW); // disable power supply for ePaper
+      digitalWrite(POWER, LOW); // disable power supply for ePaper
       // deep sleep mode
       esp_sleep_enable_timer_wakeup(deepSleepTime * 1000000);
       delay(200);
@@ -277,29 +277,28 @@ void displayInit(){
   display.setTextColor(GxEPD_BLACK);  // black font
 }
 
-void BME280init(){
-  Wire.begin (SDA, SCL); // ESP32 + uŠup
-  bme.begin(BME280_ADDRESS);
-  bme.setSampling(Adafruit_BME280::MODE_FORCED,
-                  Adafruit_BME280::SAMPLING_X1, // temperature
-                  Adafruit_BME280::SAMPLING_X1, // pressure
-                  Adafruit_BME280::SAMPLING_X1, // humidity
-                  Adafruit_BME280::FILTER_OFF   );
+void SHT40init(){
+  if (! sht4.begin()) {
+    Serial.println("SHT4x not found");
+    Serial.println("Check connection");
+    while (1) delay(1);
+  }
+  sht4.setPrecision(SHT4X_HIGH_PRECISION); // the higest resolution
+  sht4.setHeater(SHT4X_NO_HEATER); // no heater
 }
 
-void getBME280data(){
+void getSHT40data(){
   Serial.println("Indoor weatherstation");
-  temperature_in = bme.readTemperature();
+
+  sensors_event_t humidity, temperature; // variable for humidity and temperature
+  sht4.getEvent(&humidity, &temperature); // read value
+
+  temperature_in = temperature.temperature;
   Serial.print("Temperature = ");
   Serial.print(temperature_in);
   Serial.println(" °C");
 
-  pressure_in = bme.readPressure() / 100.0F;
-  Serial.print("Pressure = ");
-  Serial.print(pressure_in);
-  Serial.println(" hPa");
-
-  humidity_in = bme.readHumidity();
+  humidity_in = humidity.relative_humidity;
   Serial.print("Humidity = ");
   Serial.print(humidity_in);
   Serial.println(" %");
@@ -318,17 +317,16 @@ void printTime() {
 
 void setup() {
   Serial.begin(115200);
-  pinMode(ePaperPowerPin, OUTPUT); 
-  digitalWrite(ePaperPowerPin, HIGH); // enable power supply for ePaper
+  pinMode(POWER, OUTPUT); 
+  digitalWrite(POWER, HIGH); // enable power supply for ePaper
   delay(500);
-
+  Wire.begin (SDA, SCL);
   // ePaper init
   displayInit();
   // Wifi init
   WiFiInit();
-  //BME280 init
-  BME280init();
-
+  //SHT40 init
+  SHT40init();
   // Time config
   configTzTime(time_zone, ntpServer1, ntpServer2);
   // get Time from NTPClient
@@ -343,8 +341,8 @@ void setup() {
   getWifiStrength();
   // Battery votlage IN
   getVBattery();
-  // get data from indoor BME280
-  getBME280data();
+  // get data from indoor SHT40
+  getSHT40data();
 
 
   //--------------------------v
@@ -443,7 +441,7 @@ void setup() {
 
   display.display(false); // update 
   delay(100);
-  digitalWrite(ePaperPowerPin, LOW); // disable power supply for ePaper
+  digitalWrite(POWER, LOW); // disable power supply for ePaper
 
   // deep sleep mode
   esp_sleep_enable_timer_wakeup(deepSleepTime * 1000000);
