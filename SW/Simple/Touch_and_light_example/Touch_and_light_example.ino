@@ -1,5 +1,13 @@
-// Touch example with LED baclight testing.
-// ESPink-42 Touch FT6336
+/* Touch example with LED baclight testing for LaskaKit ESPink-4.2"
+ * 
+ * Board:   LaskaKit ESPink-4.2   https://www.laskakit.cz/laskakit-espink-42-esp32-e-paper-pcb-antenna
+ *
+ * Libraries:
+ * EPD library: https://github.com/ZinggJM/GxEPD2
+ * 
+ * Email:podpora@laskakit.cz
+ * Web:laskakit.cz
+ */
 
 #include <Arduino.h>
 #include "FT6236.h"
@@ -7,12 +15,40 @@
 #include <esp_timer.h>
 #include <Fonts/FreeMonoBold12pt7b.h>
 
-#define DISPLAY_POWER_PIN 2  // Epaper power pin
-#define DISPLAY_LED 26       // Display backlight pin
 #define DISPLAY_LED_PWM 50  // dutyCycle 0-255 last minimum was 15
 #define DIPLAY_BACKLIGHT_ON_TIME  5 // Time for which is backlight on after touch
 
-GxEPD2_BW<GxEPD2_420_GDEY042T81, GxEPD2_420_GDEY042T81::HEIGHT> display(GxEPD2_420_GDEY042T81(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); //GDEY042T81 (GDEY042T81-FT02), 400x300, SSD1683 (no inking)
+//#define ESPink42_V2     //for version v2.4 and earlier
+#define ESPink42_V3     //for version v3.0 and above
+
+#ifdef ESPink42_V2
+  //MOSI/SDI    23
+  //CLK/SCK     18
+  //SS/CS       5
+  #define DC    17 
+  #define RST   16  
+  #define BUSY  4 
+  #define POWER 2
+  #define SDA   21
+  #define SCL   22
+  #define BAT   34
+  #define DISPLAY_LED 26      // Display backlight pin
+#else ESPink42_V3
+  //MOSI/SDI    11
+  //CLK/SCK     12
+  //SS/CS       10
+  #define DC    48 
+  #define RST   45  
+  #define BUSY  38 
+  #define POWER 47
+  #define SDA   42
+  #define SCL   2
+  #define BAT   9
+  #define DISPLAY_LED 1      // Display backlight pin
+#endif
+
+// E-paper display
+GxEPD2_BW<GxEPD2_420_GDEY042T81, GxEPD2_420_GDEY042T81::HEIGHT> display(GxEPD2_420_GDEY042T81(SS, DC, RST, BUSY)); //GDEY042T81 (GDEY042T81-FT02), 400x300, SSD1683 (no inking)
 
 FT6236 ts = FT6236(400, 300);
 
@@ -35,14 +71,16 @@ void display_init() {
   display.display(true);
 }
 
-void setup() {
-  Serial.begin(115200);
-  pinMode(DISPLAY_POWER_PIN, OUTPUT);     // Set display power pin as output
-  digitalWrite(DISPLAY_POWER_PIN, HIGH);  // Turn on the display
-
+void setup() {  
   // configure backlight LED PWM functionalitites
-  ledcAttach(DISPLAY_LED, 1000, 8);
-  ledcWrite(DISPLAY_LED, 0);                // dutyCycle 0-255
+  analogWrite(DISPLAY_LED, 0);      // Set brightness of backlight
+  Serial.begin(115200);
+  pinMode(POWER, OUTPUT);     // Set display power pin as output
+  digitalWrite(POWER, HIGH);  // Turn on the display
+  Serial.println("Display power ON");
+  delay(500);   
+  Wire.begin (SDA, SCL);
+
   delay(100);                     // Delay so it has time to turn on
 
   display_init();
@@ -65,7 +103,7 @@ void timer_start(void) {
 
 /* Timer elapsed function */
 void on_one_shot_timer(void* arg) {
-  ledcWrite(DISPLAY_LED, DISPLAY_LED_PWM);  // dutyCycle 0-255
+    analogWrite(DISPLAY_LED, DISPLAY_LED_PWM);      // Set brightness of backlight
 }
 
 void loop() {
@@ -82,7 +120,7 @@ void loop() {
     display.print(text);
     display.display(true);
 
-    ledcWrite(DISPLAY_LED, DISPLAY_LED_PWM);  // dutyCycle 0-255
+    analogWrite(DISPLAY_LED, DISPLAY_LED_PWM);      // Set brightness of backlight
     timer_start();
   }
   // Debouncing. To avoid returning the same touch multiple times you can play with this delay.
