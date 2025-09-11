@@ -1,4 +1,7 @@
-/* Complete test of display, touchscreen, backlight, I2C, SD and ADC for LaskaKit ESPink-4.2"
+/* Complete test of display, touchscreen, backlight, I2C, SD and ADC for LaskaKit ESPink-4.2" 
+ *
+ * ----- ONLY for model with touch and backlight ------
+ * 
  * Email:podpora@laskakit.cz
  * Web:laskakit.cz
  */
@@ -11,10 +14,11 @@
 #include "I2C_test.h"
 #include "adc_test.h"
 #include "PongGame.h"
+#include "board_pins.h"
 
-#define DISPLAY_POWER_PIN 2 // Epaper power pin
-#define DISPLAY_LED 26      // Display backlight pin
+
 #define DISPLAY_LED_PWM 50 // dutyCycle 0-255 last minimum was 15
+bool DISPLAY_LED_ON = 0;
 
 #define BUTTON_X_SIZE 75
 #define BUTTON_Y_SIZE 50
@@ -25,8 +29,8 @@
 #define BUTTON_4_X_POS (BUTTON_3_X_POS + BUTTON_X_SIZE + 20)
 
 // E-paper display
-GxEPD2_BW<GxEPD2_420_GDEY042T81, GxEPD2_420_GDEY042T81::HEIGHT> display(GxEPD2_420_GDEY042T81(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); //GDEY042T81 (GDEY042T81-FT02), 400x300, SSD1683 (no inking)
-//GxEPD2_3C<GxEPD2_420c_Z21, GxEPD2_420c_Z21::HEIGHT> display(GxEPD2_420c_Z21(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEQ042Z21 400x300, UC8276
+GxEPD2_BW<GxEPD2_420_GDEY042T81, GxEPD2_420_GDEY042T81::HEIGHT> display(GxEPD2_420_GDEY042T81(SS, DC, RST, BUSY)); //GDEY042T81 (GDEY042T81-FT02), 400x300, SSD1683 (no inking)
+
 // Touch screen
 FT6236 ts = FT6236(display.width(), display.height()); // Create object for Touch library
 
@@ -60,7 +64,7 @@ void Display_init()
   display.display(false);                                            // Necessary to properly clear display after reset button (V2.2)
   display.setPartialWindow(0, 0, display.width(), display.height()); // Set display window for fast update
   display.display(true);
-  ts.begin(40, 21, 22); // Init touch screen
+  ts.begin(40, SDA, SCL); // Init touch screen
   ts.setRotation(2);
 }
 
@@ -175,21 +179,25 @@ void Display_mainScreen()
         Serial.println("I2C scanner");
         I2C_test(display);
         display.display(true);
-        ts.begin(40, 21, 22); // Init touch screen
+        ts.begin(40, SDA, SCL); // Init touch screen
         while (!ts.touched()) // Wait for touch
         {
         }
         break;
       case BACKLIGHT:
         Serial.println("Backlight");
-        if (ledcRead(DISPLAY_LED))
+        if (DISPLAY_LED_ON)
         {
             delay(50);
-          ledcWrite(DISPLAY_LED, 0);
+            analogWrite(DISPLAY_LED, 0);      // Set brightness of backlight
+            DISPLAY_LED_ON = 0;
+            delay(500);
         }
         else
         {
-          ledcWrite(DISPLAY_LED, DISPLAY_LED_PWM);
+          analogWrite(DISPLAY_LED, DISPLAY_LED_PWM);      // Set brightness of backlight
+          DISPLAY_LED_ON = 1;
+          delay(500);
         }
         break;
       case DISPLAY_TEST:
@@ -209,15 +217,22 @@ void Display_mainScreen()
   }
 }
 
-void setup()
-{
-  Serial.begin(115200);
-  pinMode(DISPLAY_POWER_PIN, OUTPUT);    // Set display power pin as output
-  digitalWrite(DISPLAY_POWER_PIN, HIGH); // Turn on the display power
+void setup() {
+  // configure backlight LED PWM functionalitites
+  pinMode(DISPLAY_LED, OUTPUT);      // přidej
+  analogWrite(DISPLAY_LED, 0);      // Set brightness of backlight
+  DISPLAY_LED_ON = 0;
 
-	// configure backlight LED PWM functionalitites
-  ledcAttach(DISPLAY_LED, 1000, 8);
-  ledcWrite(DISPLAY_LED, 0);
+  Serial.begin(115200);
+  pinMode(POWER, OUTPUT);    // Set display power pin as output
+  digitalWrite(POWER, HIGH); // Turn on the display power
+  Serial.println("Display power ON");
+  delay(500);   
+
+  Wire.begin (SDA, SCL);
+  
+
+
   delay(100); // Delay so it has time to turn on
 
   Display_init();

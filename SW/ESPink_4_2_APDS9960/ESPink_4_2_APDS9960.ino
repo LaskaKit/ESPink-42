@@ -20,21 +20,44 @@
 // eInk
 #include <GxEPD2_BW.h>
 #include "OpenSansSB_32px.h"
-#include "bitmaps.h"
 
 // APDS sensor
 #include "Adafruit_APDS9960.h"
 Adafruit_APDS9960 apds;
 
-// Pinout ESPink-42 and ESPink
-#define PIN_SS 5
-#define PIN_DC 17
-#define PIN_RST 16
-#define PIN_BUSY 4
+//#define ESPink42_V2     //for version v2.4 and earlier
+#define ESPink42_V3     //for version v3.0 and above
 
-// eInk definition for ESPink-42 with 4.2" eInk
-GxEPD2_BW<GxEPD2_420, GxEPD2_420::HEIGHT> display(GxEPD2_420(/*CS=5*/ SS, /*DC=*/17, /*RST=*/16, /*BUSY=*/4)); // GDEW042T2 400x300, UC8176 (IL0398)
-//GxEPD2_3C<GxEPD2_420c_Z21, GxEPD2_420c_Z21::HEIGHT> display(GxEPD2_420c_Z21(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // GDEQ042Z21 400x300, UC8276
+#ifdef ESPink42_V2
+  //MOSI/SDI    23
+  //CLK/SCK     18
+  //SS/CS       5
+  #define DC    17 
+  #define RST   16  
+  #define BUSY  4 
+  #define POWER 2
+  #define SDA   21
+  #define SCL   22
+  #define BAT   34
+  #define DISPLAY_LED 26      // Display backlight pin
+#else ESPink42_V3
+  //MOSI/SDI    11
+  //CLK/SCK     12
+  //SS/CS       10
+  #define DC    48 
+  #define RST   45  
+  #define BUSY  38 
+  #define POWER 47
+  #define SDA   42
+  #define SCL   2
+  #define BAT   9
+  #define DISPLAY_LED 1      // Display backlight pin
+#endif
+
+// E-paper display
+GxEPD2_BW<GxEPD2_420_GDEY042T81, GxEPD2_420_GDEY042T81::HEIGHT> display(GxEPD2_420_GDEY042T81(SS, DC, RST, BUSY)); //GDEY042T81 (GDEY042T81-FT02), 400x300, SSD1683 (no inking)
+//GxEPD2_4C<GxEPD2_420c_GDEY0420F51, GxEPD2_420c_GDEY0420F51::HEIGHT> display(GxEPD2_420c_GDEY0420F51(SS, DC, RST, BUSY)); // GDEY0420F51 400x300, HX8717 (no inking)
+//GxEPD2_3C<GxEPD2_420c_GDEY042Z98, GxEPD2_420c_GDEY042Z98::HEIGHT> display(GxEPD2_420c_GDEY042Z98(SS, DC, RST, BUSY)); // GDEY042Z98 400x300, SSD1683 (no inking)
 
 // Template - time, wheater, departure
 String timeH[] = { "0h", "3h", "6h", "9h", "12h", "15h" };
@@ -57,8 +80,8 @@ void setup() {
   apds.enableGesture(true);
 
   // eInk
-  pinMode(2, OUTPUT);
-  digitalWrite(2, HIGH);
+  pinMode(POWER, OUTPUT);
+  digitalWrite(POWER, HIGH);
   delay(100);
   display.init();
   display.setRotation(0);
@@ -162,6 +185,6 @@ void loop() {
     // update eInk
     display.display(false);
     // turn off eInk
-    digitalWrite(2, LOW);
+    digitalWrite(POWER, LOW);
   }
 }
