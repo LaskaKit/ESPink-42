@@ -1,4 +1,7 @@
-### Version 3.0
+### Version 3.1
+- More place for flex cable
+- Added one more capacitor 47uF for ESP
+#### Version 3.0
 - Whole new board on ESP32-S3
 - pull down added to backlight pin
 #### Version 3.0
