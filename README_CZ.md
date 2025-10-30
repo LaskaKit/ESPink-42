@@ -1,4 +1,5 @@
-![ESPink 4.2" top](https://github.com/LaskaKit/ESPink-42/blob/main/img/ESPink-42-2.jpg)
+![ESPink 4.2" top](https://github.com/LaskaKit/ESPink-42/blob/main/img/LaskaKit-espink-42-esp32-e-paper-pcb-antenna-2.jpg)
+![ESPink 4.2" bottom](https://github.com/LaskaKit/ESPink-42/blob/main/img/LaskaKit-espink-42-esp32-e-paper-pcb-antenna-3.jpg)
 
 # LaskaKit ESPink-4.2" — univerzální a velmi úsporná deska s ESP32 pro 4.2" ePaper
 
@@ -57,6 +58,9 @@ Pokud používáte ESPHome, doporučujeme tuto informaci ověřit před nákupem
 **Digitální I/O piny:** 32  
 **Analogové vstupy:** 16  
 **Vhodná baterie:** GeB LiPol 503759 – 1200 mAh  
+
+![ESPink 4.2" bottom](https://github.com/LaskaKit/ESPink-42/blob/main/img/LaskaKit-krabicka-pro-espink-42-3.jpg)
+
 
 ---
 
