@@ -1,30 +1,116 @@
-![ESPink-4.2" top](https://github.com/LaskaKit/ESPink-42/blob/main/img/ESPink-42-2.jpg)
+![ESPink 4.2" top](https://github.com/LaskaKit/ESPink-42/blob/main/img/LaskaKit-espink-42-esp32-e-paper-pcb-antenna-2.jpg)
+![ESPink 4.2" bottom](https://github.com/LaskaKit/ESPink-42/blob/main/img/LaskaKit-espink-42-esp32-e-paper-pcb-antenna-3.jpg)
 
-# ESPink 4.2" - versatile and low power board with ESP32 for big 4.2" ePaper/eInk
+# LaskaKit ESPink-4.2" — universal and ultra-low-power ESP32 board for 4.2" ePaper displays
 
-[ePaper displays](https://www.laskakit.cz/e-ink/) are more and more popular mainly thanks to low power consumption and wide viewing angle. 
-But what board you should use to control it? We designed ESPink, small board focused on the lowest power consumption, easy connection of sensors and big memory for graphics. 
-The ESPink is based on ESP32 what is one of the most popular Wi-Fi and Bluetooth modules. 
+[ePaper displays](https://www.laskakit.cz/e-ink/) are becoming incredibly popular — and for good reason.  
+Their extremely low power consumption and wide viewing angle make them ideal for many battery-powered projects.  
+But what’s the best way to drive such a display? That’s why we designed **ESPink** — a board with large memory, low power consumption, easy I²C sensor connection, and a huge maker community around ESP32.
 
-What is on board? Connector for connection of ePaper/eInk. The ePaper is very low power but it is drawing current during sleep (a few uA). To achieve the lowest current, we assembled transistor between power and input of ePaper. Thanks to this, the current through ePaper during the sleep is zero. The gate of transistor is connected to GPIO2 and the power supply for ePaper is enabled in case GPIO2 is set to HIGH.
+---
 
-Pinout of extension header<br>
-![ESPink-4.2" pinout of extension header](https://github.com/LaskaKit/ESPink-42/blob/main/img/pinout.png)
+## Main Features
 
-One more feature how to decrease the current is the external [LaskaKit CH9102 programmer](https://www.laskakit.cz/laskakit-ch9102-programmer-usb-c--microusb--uart/),
-what we are using for all of our boards. So only one programmer may upload code to all of our low power boards. If you prefer to have programmer on board, you can buy [LaskaKit CH9102 SMD programmer](https://www.laskakit.cz/laskakit-ch9102-smd-programmer/) and assemble it on board. The own power consumption will be a little bit higher.
+The board naturally includes a connector for ePaper displays (sometimes referred to as *E-Ink*).  
+While ePaper is very energy-efficient, it still draws a few microamps even when idle.  
+To minimize this current, display power is controlled by a voltage regulator switched through **GPIO47**.  
+The display power turns on when GPIO47 is set to HIGH.
 
-The board is powered from [lipol battery](https://www.laskakit.cz/baterie-a-akumulatory/) what is chargered from USB-C, no longer micro USB.
-The design is ready for measurement of battery voltage. The voltage divider is connected to battery and GPIO34 where is ADC input (solder bridge ADC is by defoult open, you shall solder it if you want to measure that).
+The board can be powered by a **Li-Po battery**, which is charged via the **USB-C** connector.  
+Battery voltage can be measured thanks to an integrated voltage divider connected to **GPIO9**.
 
-The connection of sensors is so easy and safe thanks to our μŠup connector. The connector includes and lock and the pinout is the same for all sensors and board made by laskakit.cz.  
-The sensors what include μŠup connector are [LaskaKit SHT40 Senzor of temperature and humidity](https://www.laskakit.cz/laskakit-sht40-senzor-teploty-a-vlhkosti-vzduchu/) and  [LaskaKit SCD41 Senzor CO2, temperature and humidity ](https://www.laskakit.cz/laskakit-scd41-senzor-co2--teploty-a-vlhkosti-vzduchu/).
+Connecting sensors has never been easier or safer.  
+No more broken sensors due to reversed polarity — with our **μŠup connector** (with a locking mechanism), you can plug sensors in quickly and securely.  
+Compatible sensors include:  
+- [LaskaKit SHT40 temperature and humidity sensor](https://www.laskakit.cz/laskakit-sht40-senzor-teploty-a-vlhkosti-vzduchu/)  
+- [LaskaKit SCD41 CO₂, temperature, and humidity sensor](https://www.laskakit.cz/laskakit-scd41-senzor-co2--teploty-a-vlhkosti-vzduchu/)
 
-ESP32 includes a lot of GPIO what we didn't use, but we keep them for custom purpose. So you can solder what you want.
+The board also provides plenty of **GPIO pins** for your own extensions or modules.  
+Power consumption in deep-sleep mode is extremely low — perfect for long-term battery projects.
 
-The charging current of on-board lipol charger is set to 400mA.
+---
 
-ESPink 4.2" is available on https://www.laskakit.cz/laskakit-espink-42-esp32-e-paper-pcb-antenna/
-We wrte an example codes available on this link https://github.com/LaskaKit/ESPink-42/tree/main/SW
+## Important Notice
 
-![ESPink-4.2" pinout](https://github.com/LaskaKit/ESPink-42/blob/main/img/ESPink-4.2-pinout.jpg)
+Recently shipped boards are equipped with **GoodDisplay displays**.  
+The original **Waveshare** versions are no longer in production.  
+At this time, there may be **incompatibility with ESPHome**, since support for new GoodDisplay panels is not yet fully implemented.  
+If you plan to use ESPHome, please verify compatibility before purchase.
+
+---
+
+## Versions and Specifications
+
+### ESPink-4.2" v3.0
+
+| Display Type | Model | Colors | Refresh |
+|---------------|------------------|--------------------------|----------------|
+| Black & White | GDEQ042T81 | BW Grayscale | partial refresh |
+| Black & White (touch + backlight) | GDEY042T81-FT02 | BW Touch | partial refresh |
+| Red-Black-White | GDEY042Z98 | RBW | full refresh ~22 s |
+| Yellow-Red-Black-White | GDEM042F52 | YRBW | full refresh ~20 s |
+
+**ESP32 module:** ESP32-S3-N16R8 (16 MB Flash, 8 MB PSRAM)  
+**Input voltage:** 3.7 – 5.5 V  
+**Power consumption (deep-sleep):**
+- Without touch: 16 µA  
+- With touch: 4.5 mA for first 30 s, then 1.55 mA  
+**Digital I/O pins:** 32  
+**Analog inputs:** 16  
+**Recommended battery:** GeB Li-Po 503759 – 1200 mAh  
+
+![ESPink 4.2" case](https://github.com/LaskaKit/ESPink-42/blob/main/img/LaskaKit-krabicka-pro-espink-42-3.jpg)
+
+---
+
+## Pinout (GxEPD2 standard)
+
+| Function | Pin |
+|-----------|-----|
+| MOSI / SDI | 23 |
+| CLK / SCK | 18 |
+| SS / CS | 5 |
+| DC | 17 |
+| RST | 16 |
+| BUSY | 4 |
+| ePaper Power (HIGH = ON) | 47 |
+
+---
+
+## μŠup Connector Pinout
+
+### SPI_uSUP
+| Signal | Pin |
+|---------|-----|
+| CS | 46 |
+| MOSI | 3 |
+| SCK | 14 |
+| MISO | 21 |
+
+### I2C_uSUP
+| Signal | Pin |
+|---------|-----|
+| SDA | 42 |
+| SCL | 2 |
+
+### SD Card
+| Signal | Pin |
+|---------|-----|
+| CS | 17 |
+| MOSI | 11 |
+| SCK | 12 |
+| MISO | 13 |
+| SD Insert | 16 |
+
+### Buttons
+| Function | Pins |
+|-----------|------|
+| Buttons | 39, 40, 41 |
+
+---
+
+📦 **Buy ESPink-4.2" in our e-shop:**  
+➡️ [https://www.laskakit.cz/laskakit-espink-42-esp32-e-paper-pcb-antenna/](https://www.laskakit.cz/laskakit-espink-42-esp32-e-paper-pcb-antenna/)
+
+💾 **Example codes and demos:**  
+➡️ [https://github.com/LaskaKit/ESPink-42/tree/main/SW](https://github.com/LaskaKit/ESPink-42/tree/main/SW)
