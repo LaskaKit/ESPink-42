@@ -4,6 +4,8 @@ Projekt vytváří platební QR kód ve formátu Short Payment Descriptor (QR Pl
 
 Celý článek na našem blogu https://blog.laskakit.cz/epaper-jako-zobrazeni-qr-platby-pripravili-jsme-univerzalni-kod-zdarma-staci-pouzit/
 
+![Obrazek](https://github.com/LaskaKit/ESPink-42/blob/main/SW/QR_platba/qrplatba1-2-1024x819.jpg)
+
 ## Funkce
 
 - Připojení k uložené Wi‑Fi nebo vytvoření vlastní Wi‑Fi AP **„Laskakit‑Platba_QR“** (heslo **„esp32qrpay“**) s jednoduchým webovým rozhraním.
