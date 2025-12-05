@@ -2,6 +2,8 @@
 
 Projekt vytváří platební QR kód ve formátu Short Payment Descriptor (QR Platba, SPD 1.0) přímo na desce **[LaskaKit ESPink4.2](https://www.laskakit.cz/laskakit-espink-42-esp32-e-paper-pcb-antenna/?variantId=13538)** s ESP32 a 4,2" e‑paper displejem. Uživatel vyplní platební údaje přes webový formulář a výsledný QR kód se zobrazí na displeji, odkud jej zákazník naskenuje v mobilním bankovnictví.
 
+Celý článek na našem blogu https://blog.laskakit.cz/epaper-jako-zobrazeni-qr-platby-pripravili-jsme-univerzalni-kod-zdarma-staci-pouzit/
+
 ## Funkce
 
 - Připojení k uložené Wi‑Fi nebo vytvoření vlastní Wi‑Fi AP **„Laskakit‑Platba_QR“** (heslo **„esp32qrpay“**) s jednoduchým webovým rozhraním.
@@ -93,4 +95,6 @@ V Arduino IDE:
 
 ## Hardware
 
-ESPink42 můžete zakoupit na https://www.laskakit.cz/laskakit-espink-42-esp32-e-paper-pcb-antenna/?variantId=13538
+Celý článek na našem blogu https://blog.laskakit.cz/epaper-jako-zobrazeni-qr-platby-pripravili-jsme-univerzalni-kod-zdarma-staci-pouzit/
+
+ESPink-42 můžete zakoupit na https://www.laskakit.cz/laskakit-espink-42-esp32-e-paper-pcb-antenna/?variantId=13538
