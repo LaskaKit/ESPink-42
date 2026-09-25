@@ -1,0 +1,51 @@
+Arduino Clone IDE — informace o kompilaci
+=========================================
+Skica:         complete_test
+
+DESKA
+-----
+Název:         ESP32S3 Dev Module
+ID desky:      esp32s3
+Jádro/balík:   ESP32 Arduino (esp32:esp32)
+Vydavatel:     Espressif Systems
+Verze definic: 3.3.11
+
+NASTAVENÍ PARAMETRŮ DESKY
+-------------------------
+JTAG Adapter: Disabled
+PSRAM: Disabled
+Flash Mode: QIO 80MHz
+Flash Size: 4MB (32Mb)
+Arduino Runs On: Core 1
+Events Run On: Core 1
+USB Mode: Hardware CDC and JTAG
+USB CDC On Boot: Disabled
+USB Firmware MSC On Boot: Disabled
+USB DFU On Boot: Disabled
+Upload Mode: UART0 / Hardware CDC
+Partition Scheme: Default 4MB with spiffs (1.2MB APP/1.5MB SPIFFS)
+CPU Frequency: 240MHz (WiFi)
+Upload Speed: 921600
+Core Debug Level: None
+Erase All Flash Before Sketch Upload: Disabled
+Zigbee Mode: Disabled
+
+POUŽITÉ EXTERNÍ KNIHOVNY
+------------------------
+• Adafruit BusIO
+    Verze:     1.17.4
+    Autor:     Adafruit
+    Správce:   Adafruit <info@adafruit.com>
+• Adafruit GFX Library
+    Verze:     1.12.6
+    Autor:     Adafruit
+    Správce:   Adafruit <info@adafruit.com>
+• GxEPD2
+    Verze:     1.6.9
+    Autor:     Jean-Marc Zingg
+• SD
+    Verze:     1.3.0
+    Autor:     Arduino, SparkFun
+    Správce:   Arduino <info@arduino.cc>
+
+Vygenerováno: 2026-09-22 14:33:31
